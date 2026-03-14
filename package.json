@@ -1,0 +1,22 @@
+{
+  "name": "@yourorg/chat-widget",
+  "version": "1.0.0",
+  "main": "dist/loader.js",
+  "files": ["dist"],
+  "scripts": {
+    "dev": "vite",
+    "build": "BUILD_TARGET=loader vite build && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "preact": "^10.29.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.3",
+    "vite": "^7.3.1"
+  }
+}

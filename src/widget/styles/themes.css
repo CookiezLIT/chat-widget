@@ -1,0 +1,87 @@
+/* src/widget/styles/themes.css */
+
+:root {
+  /* Fallback — same as white-blue */
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #f0f4f8;
+  --bg-input:      #f9fafb;
+  --text-primary:  #1a1a2e;
+  --text-secondary:#6b7280;
+  --accent:        #2563eb;
+  --accent-hover:  #1d4ed8;
+  --accent-text:   #ffffff;
+  --bubble-user:   #2563eb;
+  --bubble-bot:    #f0f4f8;
+  --bubble-user-text: #ffffff;
+  --bubble-bot-text:  #1a1a2e;
+  --shadow:        0 8px 32px rgba(0,0,0,0.12);
+  --border:        #e5e7eb;
+}
+
+[data-theme="white-blue"] {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #eff6ff;
+  --bg-input:      #f9fafb;
+  --text-primary:  #1e293b;
+  --text-secondary:#64748b;
+  --accent:        #2563eb;
+  --accent-hover:  #1d4ed8;
+  --accent-text:   #ffffff;
+  --bubble-user:   #2563eb;
+  --bubble-bot:    #eff6ff;
+  --bubble-user-text: #ffffff;
+  --bubble-bot-text:  #1e293b;
+  --shadow:        0 8px 32px rgba(37,99,235,0.15);
+  --border:        #dbeafe;
+}
+
+[data-theme="black-blue"] {
+  --bg-primary:    #0f172a;
+  --bg-secondary:  #1e293b;
+  --bg-input:      #1e293b;
+  --text-primary:  #f1f5f9;
+  --text-secondary:#94a3b8;
+  --accent:        #3b82f6;
+  --accent-hover:  #2563eb;
+  --accent-text:   #ffffff;
+  --bubble-user:   #3b82f6;
+  --bubble-bot:    #1e293b;
+  --bubble-user-text: #ffffff;
+  --bubble-bot-text:  #f1f5f9;
+  --shadow:        0 8px 32px rgba(0,0,0,0.5);
+  --border:        #334155;
+}
+
+[data-theme="white-green"] {
+  --bg-primary:    #ffffff;
+  --bg-secondary:  #f0fdf4;
+  --bg-input:      #f9fafb;
+  --text-primary:  #14532d;
+  --text-secondary:#6b7280;
+  --accent:        #16a34a;
+  --accent-hover:  #15803d;
+  --accent-text:   #ffffff;
+  --bubble-user:   #16a34a;
+  --bubble-bot:    #f0fdf4;
+  --bubble-user-text: #ffffff;
+  --bubble-bot-text:  #14532d;
+  --shadow:        0 8px 32px rgba(22,163,74,0.15);
+  --border:        #bbf7d0;
+}
+
+[data-theme="black-green"] {
+  --bg-primary:    #0a0f0a;
+  --bg-secondary:  #14201a;
+  --bg-input:      #14201a;
+  --text-primary:  #ecfdf5;
+  --text-secondary:#6ee7b7;
+  --accent:        #22c55e;
+  --accent-hover:  #16a34a;
+  --accent-text:   #000000;
+  --bubble-user:   #22c55e;
+  --bubble-bot:    #14201a;
+  --bubble-user-text: #000000;
+  --bubble-bot-text:  #ecfdf5;
+  --shadow:        0 8px 32px rgba(0,0,0,0.6);
+  --border:        #166534;
+}
