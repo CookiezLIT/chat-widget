@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'preact/hooks'
 
 // Empty string = relative URLs → hits Vite dev server mock in development
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? 'https://api.yourservice.com'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? ''
 
 export function useChat(apiKey) {
   const [messages, setMessages] = useState([])

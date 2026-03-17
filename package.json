@@ -4,7 +4,7 @@
   "main": "dist/loader.js",
   "files": ["dist"],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
     "build": "BUILD_TARGET=loader vite build && vite build",
     "preview": "vite preview"
   },
