@@ -8,11 +8,10 @@ A standalone embeddable chat widget distributed as an npm package. Customers emb
 
 ```html
 <script
-  src="https://cdn.yourservice.com/loader.js"
-  data-api-key="pk_live_abc123"
+  src="https://cookiezlit.github.io/chat-widget/loader.js"
+  data-api-key="YOUR_API_KEY"
   data-theme="white-blue"
-  data-position="bottom-right"
-  async>
+  data-position="bottom-right">
 </script>
 ```
 
@@ -23,7 +22,8 @@ A standalone embeddable chat widget distributed as an npm package. Customers emb
 | `data-api-key` | Yes | Your public API key | — |
 | `data-theme` | No | `white-blue` `black-blue` `white-green` `black-green` | `white-blue` |
 | `data-position` | No | `bottom-right` `bottom-left` `top-right` `top-left` | `bottom-right` |
-| `data-base-url` | No | Domain where widget files are hosted | `https://chat.yourservice.com` |
+
+> The widget UI is served from the same location as `loader.js` — no extra configuration needed.
 
 ---
 
@@ -70,10 +70,9 @@ src/
 
 ### How the iframe bridge works
 
-1. `loader.js` creates a `position: fixed` iframe pointing at `{baseUrl}/widget?apiKey=…&theme=…&position=…`
-2. The iframe's `pointer-events` starts as `none` so transparent areas pass clicks through to the host page
-3. When the user opens/closes the chat, `App.jsx` sends `postMessage({ type: 'CHAT_RESIZE', open: true|false })` to the parent
-4. `loader.js` listens for that message (origin-checked) and toggles `pointer-events` on the iframe
+1. `loader.js` derives the widget base URL from its own `src` attribute (same directory)
+2. It creates a `position: fixed` iframe pointing at `{baseUrl}/widget?apiKey=…&theme=…&position=…`
+3. The iframe is always interactive (`pointer-events: all`) — no postMessage coordination needed
 
 ---
 
@@ -182,6 +181,6 @@ The `files` field in `package.json` ensures only `dist/` is published.
 | API key visible in HTML | It's a public key only — AI secrets stay on the backend |
 | Domain allowlisting | Backend validates `Origin` on `/api/session` |
 | iframe sandbox | `allow-scripts allow-forms allow-same-origin` — no top navigation, no popups |
-| postMessage origin check | `loader.js` verifies `e.origin` before acting on any message |
+| postMessage origin check | Not used — iframe communication removed in favour of always-on pointer events |
 | CSP on widget page | `src/widget/index.html` restricts scripts, styles, and connect targets |
 | Session tokens | Short-lived JWTs issued per session, not stored beyond the page lifetime |
