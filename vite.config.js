@@ -60,6 +60,7 @@ export default defineConfig(() => {
   // Widget app + mock API for local dev
   return {
     plugins: [preact(), mockApiPlugin()],
+    base: '/chat-widget/widget/',
     root: 'src/widget',
     build: {
       outDir: '../../dist/widget',
