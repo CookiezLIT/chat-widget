@@ -3,7 +3,9 @@
   const apiKey = script.getAttribute('data-api-key')
   const theme  = script.getAttribute('data-theme') || 'white-blue'
   const position = script.getAttribute('data-position') || 'bottom-right'
-  const baseUrl = script.getAttribute('data-base-url') || 'https://chat.yourservice.com'
+
+  // Derive base URL from the script's own src (same directory)
+  const baseUrl = script.src.substring(0, script.src.lastIndexOf('/'))
 
   if (!apiKey) {
     console.warn('[ChatWidget] Missing data-api-key attribute.')
@@ -35,7 +37,7 @@
     border:     'none',
     zIndex:     '2147483647',
     background: 'transparent',
-    pointerEvents: 'none',
+    pointerEvents: 'all',
   })
 
   const mount = () => document.body.appendChild(iframe)
@@ -44,15 +46,4 @@
   } else {
     document.addEventListener('DOMContentLoaded', mount)
   }
-
-  // Allow iframe to request pointer-events toggling via postMessage
-  window.addEventListener('message', (e) => {
-    if (e.origin !== new URL(baseUrl).origin) return
-    if (e.data?.type === 'CHAT_RESIZE') {
-      iframe.style.pointerEvents = e.data.open ? 'all' : 'none'
-    }
-    if (e.data?.type === 'CHAT_READY') {
-      iframe.style.pointerEvents = 'all'
-    }
-  })
 })()

@@ -8,12 +8,7 @@ export default function App({ apiKey, theme, position }) {
   const [open, setOpen] = useState(false)
   useTheme(theme)
 
-  // Notify parent page when open state changes (for pointer-events)
-  const toggle = () => {
-    const next = !open
-    setOpen(next)
-    window.parent.postMessage({ type: 'CHAT_RESIZE', open: next }, '*')
-  }
+  const toggle = () => setOpen(o => !o)
 
   return (
     <div class={`widget-root position-${position}`}>
