@@ -38,7 +38,12 @@
     pointerEvents: 'none',
   })
 
-  document.body.appendChild(iframe)
+  const mount = () => document.body.appendChild(iframe)
+  if (document.body) {
+    mount()
+  } else {
+    document.addEventListener('DOMContentLoaded', mount)
+  }
 
   // Allow iframe to request resize via postMessage
   window.addEventListener('message', (e) => {
