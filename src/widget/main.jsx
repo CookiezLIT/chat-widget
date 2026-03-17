@@ -7,6 +7,9 @@ import './styles/themes.css'
 // Read config from URL query params (passed by loader.js)
 const params = new URLSearchParams(window.location.search)
 
+// Tell the parent page the widget is ready so it can enable pointer events
+window.parent.postMessage({ type: 'CHAT_READY' }, '*')
+
 render(
   <App
     apiKey={params.get('apiKey')}

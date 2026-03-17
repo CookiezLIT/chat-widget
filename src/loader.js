@@ -45,11 +45,14 @@
     document.addEventListener('DOMContentLoaded', mount)
   }
 
-  // Allow iframe to request resize via postMessage
+  // Allow iframe to request pointer-events toggling via postMessage
   window.addEventListener('message', (e) => {
     if (e.origin !== new URL(baseUrl).origin) return
     if (e.data?.type === 'CHAT_RESIZE') {
       iframe.style.pointerEvents = e.data.open ? 'all' : 'none'
+    }
+    if (e.data?.type === 'CHAT_READY') {
+      iframe.style.pointerEvents = 'all'
     }
   })
 })()
