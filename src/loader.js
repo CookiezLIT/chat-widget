@@ -4,6 +4,8 @@
   const theme  = script.getAttribute('data-theme') || 'white-blue'
   const position = script.getAttribute('data-position') || 'bottom-right'
 
+
+  
   // Derive base URL from the script's own src (same directory)
   const baseUrl = script.src.substring(0, script.src.lastIndexOf('/'))
 
