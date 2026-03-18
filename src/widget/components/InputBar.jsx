@@ -1,7 +1,7 @@
 // src/widget/components/InputBar.jsx
 import { useState } from 'preact/hooks'
 
-export default function InputBar({ onSend, disabled }) {
+export default function InputBar({ onSend, disabled, placeholder }) {
   const [value, setValue] = useState('')
 
   const submit = () => {
@@ -21,7 +21,7 @@ export default function InputBar({ onSend, disabled }) {
         value={value}
         onInput={e => setValue(e.target.value)}
         onKeyDown={onKeyDown}
-        placeholder="Type a message…"
+        placeholder={placeholder}
         rows={1}
         disabled={disabled}
         aria-label="Message input"

@@ -4,7 +4,7 @@ import { useTheme } from './hooks/useTheme'
 import ChatButton from './components/ChatButton'
 import ChatWindow from './components/ChatWindow'
 
-export default function App({ apiKey, theme, position }) {
+export default function App({ apiKey, theme, position, lang, welcomeMessage }) {
   const [open, setOpen] = useState(false)
   useTheme(theme)
 
@@ -12,7 +12,14 @@ export default function App({ apiKey, theme, position }) {
 
   return (
     <div class={`widget-root position-${position}`}>
-      {open && <ChatWindow apiKey={apiKey} onClose={toggle} />}
+      {open && (
+        <ChatWindow
+          apiKey={apiKey}
+          lang={lang}
+          welcomeMessage={welcomeMessage}
+          onClose={toggle}
+        />
+      )}
       <ChatButton open={open} onClick={toggle} />
     </div>
   )

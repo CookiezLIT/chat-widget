@@ -1,11 +1,22 @@
 (function () {
-  const script = document.currentScript
-  const apiKey = script.getAttribute('data-api-key')
-  const theme  = script.getAttribute('data-theme') || 'white-blue'
+  const script  = document.currentScript
+  const apiKey  = script.getAttribute('data-api-key')
+  const theme   = script.getAttribute('data-theme')    || 'white-blue'
   const position = script.getAttribute('data-position') || 'bottom-right'
 
+  // Welcome message — customer supplies translated text, or the widget falls
+  // back to its built-in default for the detected language.
+  const welcomeMessage = script.getAttribute('data-welcome-message') || ''
 
-  
+  // Language — explicit override wins; otherwise inherit the host page's
+  // <html lang="…"> attribute (set by React, Angular, WordPress, PHP, etc.);
+  // finally fall back to the browser's preferred language.
+  const lang =
+    script.getAttribute('data-lang') ||
+    document.documentElement.lang    ||
+    navigator.language                ||
+    'en'
+
   // Derive base URL from the script's own src (same directory)
   const baseUrl = script.src.substring(0, script.src.lastIndexOf('/'))
 
@@ -15,7 +26,7 @@
   }
 
   // Build iframe URL — pass config as query params (non-sensitive only)
-  const params = new URLSearchParams({ apiKey, theme, position })
+  const params = new URLSearchParams({ apiKey, theme, position, lang, welcomeMessage })
   const iframeSrc = `${baseUrl}/widget?${params}`
 
   // Create sandboxed iframe

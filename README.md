@@ -11,7 +11,9 @@ A standalone embeddable chat widget distributed as an npm package. Customers emb
   src="https://cookiezlit.github.io/chat-widget/loader.js"
   data-api-key="YOUR_API_KEY"
   data-theme="white-blue"
-  data-position="bottom-right">
+  data-position="bottom-right"
+  data-welcome-message="Hi, how can I help you?"
+  data-lang="en">
 </script>
 ```
 
@@ -22,8 +24,30 @@ A standalone embeddable chat widget distributed as an npm package. Customers emb
 | `data-api-key` | Yes | Your public API key | — |
 | `data-theme` | No | `white-blue` `black-blue` `white-green` `black-green` | `white-blue` |
 | `data-position` | No | `bottom-right` `bottom-left` `top-right` `top-left` | `bottom-right` |
+| `data-welcome-message` | No | Any string | Built-in translation for detected language |
+| `data-lang` | No | BCP-47 language tag (e.g. `en`, `fr`, `ro`) | Auto-detected (see below) |
 
 > The widget UI is served from the same location as `loader.js` — no extra configuration needed.
+
+### Language auto-detection
+
+`data-lang` is optional. When omitted, the loader reads the host page's `<html lang="…">` attribute — the standard place every framework and CMS (React, Angular, Vue, WordPress, PHP, etc.) declares its locale. If that is also absent, the browser's `navigator.language` is used, falling back to `en`.
+
+Use `data-lang` only when you need to override the detected value (e.g. the page `lang` attribute is incorrect or missing).
+
+### Built-in translations
+
+The following languages are supported out of the box. All UI strings — welcome message, chat title, input placeholder, and error text — are translated automatically when the language is detected or set.
+
+| `data-lang` | Language |
+|---|---|
+| `en` | English |
+| `ro` | Romanian |
+| `hu` | Hungarian |
+| `fr` | French |
+| `de` | German |
+
+Any unrecognised language tag falls back to `en`. To add more languages, extend the translation map in `src/widget/i18n.js`.
 
 ---
 
@@ -60,6 +84,7 @@ src/
     │   ├── MessageList.jsx   # Scrollable history, auto-scrolls on new messages
     │   ├── MessageBubble.jsx # Single message bubble (user or assistant)
     │   └── InputBar.jsx      # Textarea + send button, Enter to submit
+    ├── i18n.js               # Translation map (EN/RO/HU/FR/DE) + getTranslations(lang)
     ├── hooks/
     │   ├── useChat.js        # Session init, message state, streaming reader
     │   └── useTheme.js       # Applies data-theme attr to <html>

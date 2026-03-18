@@ -20,8 +20,8 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
 
 /* ── Chat window ─────────────────────────────── */
 .chat-window {
-  width: 360px;
-  height: 520px;
+  width: 280px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   background: var(--bg-primary);
@@ -200,11 +200,9 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
 /* ── Mobile responsive ───────────────────────── */
 @media (max-width: 480px) {
   .chat-window {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-    position: fixed;
-    inset: 0;
+    width: 85vw;
+    height: 70vh;
+    border-radius: 12px;
   }
 
   .widget-root {
@@ -228,7 +226,4 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
     pointer-events: all;
   }
 
-  .chat-fab.chat-fab--open {
-    display: none;
-  }
 }

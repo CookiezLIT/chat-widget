@@ -10,8 +10,10 @@ const params = new URLSearchParams(window.location.search)
 render(
   <App
     apiKey={params.get('apiKey')}
-    theme={params.get('theme') || 'white-blue'}
+    theme={params.get('theme')    || 'white-blue'}
     position={params.get('position') || 'bottom-right'}
+    lang={params.get('lang')     || 'en'}
+    welcomeMessage={params.get('welcomeMessage') || ''}
   />,
   document.getElementById('app')
 )
