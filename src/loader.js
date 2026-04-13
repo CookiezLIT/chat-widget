@@ -44,13 +44,19 @@
     top:        position.includes('top')    ? '0' : 'auto',
     right:      position.includes('right')  ? '0' : 'auto',
     left:       position.includes('left')   ? '0' : 'auto',
-    width:      '420px',
-    height:     '100vh',
-    maxHeight:  '100vh',
+    width:      '96px',
+    height:     '96px',
     border:     'none',
     zIndex:     '2147483647',
     background: 'transparent',
-    pointerEvents: 'none',
+  })
+
+  window.addEventListener('message', function (e) {
+    if (e.source !== iframe.contentWindow) return
+    if (e.data && e.data.type === 'chat-widget-resize') {
+      iframe.style.width  = e.data.width  + 'px'
+      iframe.style.height = e.data.height + 'px'
+    }
   })
 
   const mount = () => document.body.appendChild(iframe)
