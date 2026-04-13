@@ -50,7 +50,7 @@
     border:     'none',
     zIndex:     '2147483647',
     background: 'transparent',
-    pointerEvents: 'all',
+    pointerEvents: 'none',
   })
 
   const mount = () => document.body.appendChild(iframe)
