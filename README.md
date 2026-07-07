@@ -26,6 +26,8 @@ A standalone embeddable chat widget distributed as an npm package. Customers emb
 | `data-position` | No | `bottom-right` `bottom-left` `top-right` `top-left` | `bottom-right` |
 | `data-welcome-message` | No | Any string | Built-in translation for detected language |
 | `data-lang` | No | BCP-47 language tag (e.g. `en`, `fr`, `ro`) | Auto-detected (see below) |
+| `data-accent-color` | No | 6-digit hex (e.g. `#e11d48`) — overrides the theme accent to match your brand | Theme accent |
+| `data-tagline` | No | Short line shown under the chat title | — |
 
 > The widget UI is served from the same location as `loader.js` — no extra configuration needed.
 
@@ -57,7 +59,12 @@ Any unrecognised language tag falls back to `en`. To add more languages, extend 
 npm install
 npm run dev       # http://localhost:5173 — live Preact app with mock API
 npm run build     # produces dist/
+npm test          # unit tests (vitest)
 ```
+
+The widget sends `lang` in the body of both `POST /api/session` (`{ apiKey, lang }`) and `POST /api/chat` (`{ message, lang }`) so the backend can reply in the visitor's language.
+
+The chat window is closed by default; visitors see a square "AI" launcher plus a proactive teaser bubble (the localized welcome message) after 3 seconds. Dismissing the teaser or opening the chat hides it for the rest of the tab session. A microphone button is present in the input bar ("voice coming soon"); the iframe already carries `allow="microphone"` so embed codes won't change when voice ships.
 
 In dev mode, `/api/session` and `/api/chat` are intercepted by a Vite plugin and return mock responses — no backend needed. Set `VITE_BACKEND_URL` in `.env.development` to point at a real backend instead.
 
