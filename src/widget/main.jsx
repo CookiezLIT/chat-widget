@@ -14,6 +14,9 @@ render(
     position={params.get('position') || 'bottom-right'}
     lang={params.get('lang')     || 'en'}
     welcomeMessage={params.get('welcomeMessage') || ''}
+    accentColor={params.get('accentColor') || ''}
+    tagline={params.get('tagline') || ''}
+    mobile={params.get('mobile') === '1'}
   />,
   document.getElementById('app')
 )

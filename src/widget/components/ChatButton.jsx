@@ -2,11 +2,11 @@
 export default function ChatButton({ open, onClick }) {
   return (
     <button
-      class={`chat-fab${open ? ' chat-fab--open' : ''}`}
+      class={`chat-launcher${open ? ' chat-launcher--open' : ''}`}
       onClick={onClick}
       aria-label={open ? 'Close chat' : 'Open chat'}
     >
-      {open ? '✕' : '💬'}
+      {open ? '✕' : 'AI'}
     </button>
   )
 }
