@@ -21,14 +21,14 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
 
 /* ── Chat window ─────────────────────────────── */
 .chat-window {
-  width: 280px;
-  height: 400px;
+  width: 400px;
+  height: 530px;
   display: flex;
   flex-direction: column;
   background: var(--bg-primary);
   border: 1px solid var(--border);
   border-radius: 16px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 40px rgba(0,0,0,.15), 0 2px 8px rgba(0,0,0,.08);
   overflow: hidden;
   animation: slideUp 0.2s ease;
 }
@@ -49,6 +49,21 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
 }
 
 .chat-title { font-weight: 600; font-size: 15px; }
+
+.chat-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chat-tagline {
+  font-size: 12px;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .chat-close {
   background: none;
@@ -71,7 +86,9 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: var(--bg-secondary);
+  /* bg-primary, not bg-secondary: bot bubbles are bg-secondary-toned and
+     would otherwise blend invisibly into the list background */
+  background: var(--bg-primary);
 }
 
 .chat-empty {
@@ -149,14 +166,17 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
   align-items: flex-end;
 }
 
+.input-bar { position: relative; }
+
 .input-field {
   flex: 1;
-  padding: 10px 12px;
+  padding: 10px 16px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 22px;
   background: var(--bg-input);
   color: var(--text-primary);
   font-size: 14px;
+  font-family: inherit;
   resize: none;
   outline: none;
   max-height: 100px;
@@ -166,19 +186,47 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
 .input-field:focus { border-color: var(--accent); }
 .input-field::placeholder { color: var(--text-secondary); }
 
+.mic-btn,
 .send-btn {
-  padding: 10px 14px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.mic-btn {
+  background: transparent;
+  color: var(--text-secondary);
+}
+.mic-btn:hover { background: var(--bg-secondary); color: var(--accent); }
+
+.send-btn {
   background: var(--accent);
   color: var(--accent-text);
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.15s, transform 0.1s;
 }
 .send-btn:hover:not(:disabled) { background: var(--accent-hover); }
 .send-btn:active:not(:disabled) { transform: scale(0.95); }
 .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.voice-tooltip {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  right: 12px;
+  padding: 6px 12px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-size: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  animation: slideUp 0.15s ease;
+  pointer-events: none;
+}
 
 /* ── Launcher (square "AI" button) ───────────── */
 .chat-launcher {
@@ -258,29 +306,35 @@ html, body, #app { width: 100%; height: 100%; background: transparent; font-fami
   right: -8px;
 }
 
-/* ── Mobile responsive ───────────────────────── */
-@media (max-width: 480px) {
-  .chat-window {
-    width: 85vw;
-    height: 70vh;
-    border-radius: 12px;
-  }
+/* ── Mobile (parent viewport ≤ 480px; loader passes mobile=1) ──
+   Media queries here would measure the IFRAME (440px when open on
+   desktop), so mobile styling keys off the .is-mobile class instead. */
+.widget-root.is-mobile {
+  inset: 0 !important;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding: 0 20px 20px 0;
+}
 
-  .widget-root {
-    bottom: 0 !important;
-    right: 0 !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    justify-content: flex-end;
-    padding: 0 20px 20px 0;
-  }
+/* Open on mobile = full-screen takeover (launcher is not rendered) */
+.widget-root.is-mobile.is-open { padding: 0; }
 
-  .chat-window,
-  .chat-launcher {
-    pointer-events: all;
-  }
+.widget-root.is-mobile .chat-window {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
 
+.widget-root.is-mobile .chat-window,
+.widget-root.is-mobile .chat-launcher,
+.widget-root.is-mobile .teaser {
+  pointer-events: all;
+}
+
+.widget-root.is-mobile .chat-launcher,
+.widget-root.is-mobile .teaser {
+  align-self: flex-end;
 }

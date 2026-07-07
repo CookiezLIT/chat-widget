@@ -3,7 +3,9 @@ import { useState, useCallback } from 'preact/hooks'
 import { buildSessionPayload, buildChatPayload } from '../api'
 
 // Empty string = relative URLs → hits Vite dev server mock in development
-const BACKEND_URL = 'https://agent-expert-chat.redforest-e5c45670.francecentral.azurecontainerapps.io'
+const BACKEND_URL = import.meta.env.DEV
+  ? ''
+  : 'https://agent-expert-chat.redforest-e5c45670.francecentral.azurecontainerapps.io'
 
 export function useChat(apiKey, lang) {
   const [messages, setMessages] = useState([])

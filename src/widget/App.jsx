@@ -56,7 +56,7 @@ export default function App({ apiKey, theme, position, lang, welcomeMessage, acc
   }
 
   return (
-    <div class={`widget-root position-${position}${mobile ? ' is-mobile' : ''}`}>
+    <div class={`widget-root position-${position}${mobile ? ' is-mobile' : ''}${open ? ' is-open' : ''}`}>
       {open && (
         <ChatWindow
           apiKey={apiKey}
@@ -69,7 +69,7 @@ export default function App({ apiKey, theme, position, lang, welcomeMessage, acc
       {!open && teaserVisible && (
         <Teaser message={resolvedWelcome} onOpen={toggle} onDismiss={dismissTeaser} />
       )}
-      <ChatButton open={open} onClick={toggle} />
+      {!(mobile && open) && <ChatButton open={open} onClick={toggle} />}
     </div>
   )
 }
