@@ -1,10 +1,13 @@
 // src/widget/hooks/useChat.js
 import { useState, useCallback } from 'preact/hooks'
+import { buildSessionPayload, buildChatPayload } from '../api'
 
 // Empty string = relative URLs → hits Vite dev server mock in development
-const BACKEND_URL = 'https://agent-expert-chat.redforest-e5c45670.francecentral.azurecontainerapps.io'
+const BACKEND_URL = import.meta.env.DEV
+  ? ''
+  : 'https://agent-expert-chat.redforest-e5c45670.francecentral.azurecontainerapps.io'
 
-export function useChat(apiKey) {
+export function useChat(apiKey, lang) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState(null)
@@ -15,13 +18,13 @@ export function useChat(apiKey) {
     const res = await fetch(`${BACKEND_URL}/api/session`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ apiKey }),
+      body: JSON.stringify(buildSessionPayload(apiKey, lang)),
     })
     if (!res.ok) throw new Error('Failed to start session')
     const data = await res.json()
     setSessionToken(data.token)
     return data.token
-  }, [apiKey])
+  }, [apiKey, lang])
 
   const sendMessage = useCallback(async (text) => {
     if (!text.trim()) return
@@ -41,7 +44,7 @@ export function useChat(apiKey) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify(buildChatPayload(text, lang)),
       })
 
       if (!res.ok) throw new Error('Request failed')

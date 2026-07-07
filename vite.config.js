@@ -5,8 +5,14 @@ function mockApiPlugin() {
   return {
     name: 'mock-api',
     configureServer(server) {
-      server.middlewares.use('/api/session', (req, res, next) => {
+      server.middlewares.use('/api/session', async (req, res, next) => {
         if (req.method !== 'POST') return next()
+        let body = ''
+        await new Promise(resolve => {
+          req.on('data', c => { body += c })
+          req.on('end', resolve)
+        })
+        console.log('[mock /api/session]', body)
         res.setHeader('Content-Type', 'application/json')
         res.end(JSON.stringify({ token: 'mock-dev-token' }))
       })
@@ -14,11 +20,12 @@ function mockApiPlugin() {
       server.middlewares.use('/api/chat', async (req, res, next) => {
         if (req.method !== 'POST') return next()
 
-        // Drain the request body (not needed for mock, but required to unblock Node)
+        let body = ''
         await new Promise(resolve => {
-          req.on('data', () => {})
+          req.on('data', c => { body += c })
           req.on('end', resolve)
         })
+        console.log('[mock /api/chat]', body)
 
         res.setHeader('Content-Type', 'text/plain; charset=utf-8')
         res.setHeader('Transfer-Encoding', 'chunked')
@@ -57,9 +64,15 @@ export default defineConfig(() => {
     }
   }
 
-  // Widget app + mock API for local dev
+  // Widget app + mock API for local dev.
+  // Set CHAT_BACKEND=http://localhost:8000 to proxy /api to a real backend
+  // instead of the mock (same-origin via Vite, so no CORS setup needed).
+  const backendProxy = process.env.CHAT_BACKEND
   return {
-    plugins: [preact(), mockApiPlugin()],
+    plugins: [preact(), ...(backendProxy ? [] : [mockApiPlugin()])],
+    server: backendProxy
+      ? { proxy: { '/api': { target: backendProxy, changeOrigin: true } } }
+      : undefined,
     base: '/chat-widget/widget/',
     root: 'src/widget',
     build: {

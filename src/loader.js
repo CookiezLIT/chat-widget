@@ -17,6 +17,14 @@
     navigator.language                ||
     'en'
 
+  // Brand accent color (6-digit hex) and optional header tagline
+  const accentColor = script.getAttribute('data-accent-color') || ''
+  const tagline     = script.getAttribute('data-tagline')      || ''
+
+  // Media queries inside the iframe see the IFRAME's width (440px when open
+  // on desktop), so mobile detection must happen here on the parent page.
+  const isMobile = () => window.matchMedia('(max-width: 480px)').matches
+
   // Derive base URL from the script's own src (same directory)
   const baseUrl = script.src.substring(0, script.src.lastIndexOf('/'))
 
@@ -26,7 +34,10 @@
   }
 
   // Build iframe URL — pass config as query params (non-sensitive only)
-  const params = new URLSearchParams({ apiKey, theme, position, lang, welcomeMessage })
+  const params = new URLSearchParams({
+    apiKey, theme, position, lang, welcomeMessage, accentColor, tagline,
+    mobile: isMobile() ? '1' : '0',
+  })
   const iframeSrc = `${baseUrl}/widget?${params}`
 
   // Create sandboxed iframe
@@ -36,7 +47,7 @@
 
   // Sandboxing: allow scripts and forms only — NO same-origin, NO top-nav
   iframe.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin')
-  iframe.setAttribute('allow', '')
+  iframe.setAttribute('allow', 'microphone')
 
   Object.assign(iframe.style, {
     position:   'fixed',
@@ -54,8 +65,13 @@
   window.addEventListener('message', function (e) {
     if (e.source !== iframe.contentWindow) return
     if (e.data && e.data.type === 'chat-widget-resize') {
-      iframe.style.width  = e.data.width  + 'px'
-      iframe.style.height = e.data.height + 'px'
+      if (e.data.mode === 'open' && isMobile()) {
+        iframe.style.width  = '100%'
+        iframe.style.height = '100%'
+      } else {
+        iframe.style.width  = e.data.width  + 'px'
+        iframe.style.height = e.data.height + 'px'
+      }
     }
   })
 

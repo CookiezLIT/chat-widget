@@ -2,11 +2,14 @@
   "name": "@yourorg/chat-widget",
   "version": "1.0.0",
   "main": "dist/loader.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite --mode development",
     "build": "BUILD_TARGET=loader vite build && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +20,7 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.3",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "vitest": "^3.2.7"
   }
 }
