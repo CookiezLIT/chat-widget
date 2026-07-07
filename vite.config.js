@@ -5,8 +5,14 @@ function mockApiPlugin() {
   return {
     name: 'mock-api',
     configureServer(server) {
-      server.middlewares.use('/api/session', (req, res, next) => {
+      server.middlewares.use('/api/session', async (req, res, next) => {
         if (req.method !== 'POST') return next()
+        let body = ''
+        await new Promise(resolve => {
+          req.on('data', c => { body += c })
+          req.on('end', resolve)
+        })
+        console.log('[mock /api/session]', body)
         res.setHeader('Content-Type', 'application/json')
         res.end(JSON.stringify({ token: 'mock-dev-token' }))
       })
@@ -14,11 +20,12 @@ function mockApiPlugin() {
       server.middlewares.use('/api/chat', async (req, res, next) => {
         if (req.method !== 'POST') return next()
 
-        // Drain the request body (not needed for mock, but required to unblock Node)
+        let body = ''
         await new Promise(resolve => {
-          req.on('data', () => {})
+          req.on('data', c => { body += c })
           req.on('end', resolve)
         })
+        console.log('[mock /api/chat]', body)
 
         res.setHeader('Content-Type', 'text/plain; charset=utf-8')
         res.setHeader('Transfer-Encoding', 'chunked')
