@@ -64,9 +64,15 @@ export default defineConfig(() => {
     }
   }
 
-  // Widget app + mock API for local dev
+  // Widget app + mock API for local dev.
+  // Set CHAT_BACKEND=http://localhost:8000 to proxy /api to a real backend
+  // instead of the mock (same-origin via Vite, so no CORS setup needed).
+  const backendProxy = process.env.CHAT_BACKEND
   return {
-    plugins: [preact(), mockApiPlugin()],
+    plugins: [preact(), ...(backendProxy ? [] : [mockApiPlugin()])],
+    server: backendProxy
+      ? { proxy: { '/api': { target: backendProxy, changeOrigin: true } } }
+      : undefined,
     base: '/chat-widget/widget/',
     root: 'src/widget',
     build: {
